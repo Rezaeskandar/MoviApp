@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using MoviApp.Data;
+
 namespace MoviApp
 {
     public class Program
@@ -12,6 +15,8 @@ namespace MoviApp
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            // oppetion tow added for connectiostring 
+            builder.Services.AddDbContext<ApiDbContext>(dbContextopption => dbContextopption.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog= MovieDb;"));
           
             var app = builder.Build();
 

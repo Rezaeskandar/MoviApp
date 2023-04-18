@@ -5,10 +5,13 @@ namespace MoviApp.Models
 {
     public class Movie
     {
+        [Key]
+        //qouto intecriment of id 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MovieId { get; set; }
 
-        [Required] 
-        public int personGenereId { get; set; }
+         [ForeignKey("personGenereId")]
+        public PersonGenere? person_GenereId { get; set; } 
 
         [Required]
         [Column (TypeName = "varchar")]

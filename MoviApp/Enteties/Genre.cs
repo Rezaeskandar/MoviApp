@@ -5,7 +5,9 @@ namespace MoviApp.Models
 {
     public class Genre
     {
-        
+        [Key]
+        //qouto intecriment of id 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int GenerId { get; set; }
 
         [Required]
