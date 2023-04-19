@@ -6,7 +6,7 @@ namespace MoviApp.Models
     public class Person
     {
         [Key]
-        //qouto intecriment of id 
+        //aouto intecriment of id 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PersonId { get; set; }
         [Required]

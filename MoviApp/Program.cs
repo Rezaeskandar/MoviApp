@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MoviApp.Data;
+using MoviApp.Services;
 
 namespace MoviApp
 {
@@ -19,6 +20,7 @@ namespace MoviApp
             builder.Services.AddDbContext<ApiDbContext>(dbContextopption => dbContextopption.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog= MovieDb;"));
             //builder.Services.AddDbContext<ApiDbContext>(dbContextopption => dbContextopption.UseSqlServer(builder.Configuration["ConnectionStrings:ApiDbConnectionString"]));
 
+            builder.Services.AddScoped<IMoveReposetori, MovieReposetori>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
