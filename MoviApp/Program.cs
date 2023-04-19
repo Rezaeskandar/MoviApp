@@ -17,7 +17,8 @@ namespace MoviApp
             builder.Services.AddSwaggerGen();
             // oppetion tow added for connectiostring 
             builder.Services.AddDbContext<ApiDbContext>(dbContextopption => dbContextopption.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog= MovieDb;"));
-          
+            //builder.Services.AddDbContext<ApiDbContext>(dbContextopption => dbContextopption.UseSqlServer(builder.Configuration["ConnectionStrings:ApiDbConnectionString"]));
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -42,6 +42,20 @@ namespace MoviApp.Migrations
                     b.HasKey("GenerId");
 
                     b.ToTable("Genres");
+
+                    b.HasData(
+                        new
+                        {
+                            GenerId = 1,
+                            Description = "The most sold film and emotianl int not recomends for pepole under 14.",
+                            Title = "Legal drama"
+                        },
+                        new
+                        {
+                            GenerId = 2,
+                            Description = "The most sold film and emotianl int not recomends for pepole under 20.",
+                            Title = "drama"
+                        });
                 });
 
             modelBuilder.Entity("MoviApp.Models.Movie", b =>
@@ -54,7 +68,7 @@ namespace MoviApp.Migrations
 
                     b.Property<string>("Movelink")
                         .IsRequired()
-                        .HasColumnType("varchar");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int?>("Rating")
                         .HasColumnType("int");
@@ -67,6 +81,20 @@ namespace MoviApp.Migrations
                     b.HasIndex("personGenereId");
 
                     b.ToTable("Movies");
+
+                    b.HasData(
+                        new
+                        {
+                            MovieId = 1,
+                            Movelink = "https://www.themoviedb.org/movie/19973-comedian",
+                            Rating = 5
+                        },
+                        new
+                        {
+                            MovieId = 2,
+                            Movelink = "https://www.themoviedb.org/movie/79168-drama",
+                            Rating = 3
+                        });
                 });
 
             modelBuilder.Entity("MoviApp.Models.Person", b =>
@@ -90,6 +118,20 @@ namespace MoviApp.Migrations
                     b.HasKey("PersonId");
 
                     b.ToTable("Person");
+
+                    b.HasData(
+                        new
+                        {
+                            PersonId = 1,
+                            Email = "Rezaeskand@gmail.com",
+                            Name = "reza"
+                        },
+                        new
+                        {
+                            PersonId = 2,
+                            Email = "Rasouleskand@gmail.com",
+                            Name = "Rasoul"
+                        });
                 });
 
             modelBuilder.Entity("MoviApp.Models.PersonGenere", b =>
@@ -113,6 +155,16 @@ namespace MoviApp.Migrations
                     b.HasIndex("PersonId");
 
                     b.ToTable("PersonGenere");
+
+                    b.HasData(
+                        new
+                        {
+                            personGenereId = 1
+                        },
+                        new
+                        {
+                            personGenereId = 2
+                        });
                 });
 
             modelBuilder.Entity("MoviApp.Models.Movie", b =>

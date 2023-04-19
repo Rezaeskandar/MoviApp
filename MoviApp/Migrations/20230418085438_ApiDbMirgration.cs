@@ -2,10 +2,12 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace MoviApp.Migrations
 {
     /// <inheritdoc />
-    public partial class ApiDbMigration : Migration
+    public partial class ApiDbMirgration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -69,7 +71,7 @@ namespace MoviApp.Migrations
                     MovieId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     personGenereId = table.Column<int>(type: "int", nullable: true),
-                    Movelink = table.Column<string>(type: "varchar", nullable: false),
+                    Movelink = table.Column<string>(type: "varchar(255)", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -80,6 +82,42 @@ namespace MoviApp.Migrations
                         column: x => x.personGenereId,
                         principalTable: "PersonGenere",
                         principalColumn: "personGenereId");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Genres",
+                columns: new[] { "GenerId", "Description", "Title" },
+                values: new object[,]
+                {
+                    { 1, "The most sold film and emotianl int not recomends for pepole under 14.", "Legal drama" },
+                    { 2, "The most sold film and emotianl int not recomends for pepole under 20.", "drama" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Movies",
+                columns: new[] { "MovieId", "Movelink", "Rating", "personGenereId" },
+                values: new object[,]
+                {
+                    { 1, "https://www.themoviedb.org/movie/19973-comedian", 5, null },
+                    { 2, "https://www.themoviedb.org/movie/79168-drama", 3, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Person",
+                columns: new[] { "PersonId", "Email", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Rezaeskand@gmail.com", "reza" },
+                    { 2, "Rasouleskand@gmail.com", "Rasoul" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "PersonGenere",
+                columns: new[] { "personGenereId", "GenerId", "PersonId" },
+                values: new object[,]
+                {
+                    { 1, null, null },
+                    { 2, null, null }
                 });
 
             migrationBuilder.CreateIndex(

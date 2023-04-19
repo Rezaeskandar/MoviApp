@@ -14,7 +14,7 @@ namespace MoviApp.Models
         public PersonGenere? person_GenereId { get; set; } 
 
         [Required]
-        [Column (TypeName = "varchar")]
+        [Column (TypeName = "varchar(255)")]
         public string? Movelink { get; set; }
 
         public int? Rating { get; set; } = null;
