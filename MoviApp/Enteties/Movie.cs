@@ -10,8 +10,8 @@ namespace MoviApp.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MovieId { get; set; }
 
-         [ForeignKey("personGenereId")]
-        public PersonGenere? person_GenereId { get; set; } 
+         //[ForeignKey("personGenereId")]
+        //public PersonGenere? person_GenereId { get; set; } 
 
         [Required]
         [Column (TypeName = "varchar(255)")]
@@ -19,5 +19,9 @@ namespace MoviApp.Models
 
         public int? Rating { get; set; } = null;
        
+        //public int Genered { get; set; }
+        public  Genre? Geners { get; set; }
+        //public int Personed { get; set; }
+        public Person? persons { get; set; }
     }
 }

@@ -20,7 +20,11 @@ namespace MoviApp
             builder.Services.AddDbContext<ApiDbContext>(dbContextopption => dbContextopption.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog= MovieDb;"));
             //builder.Services.AddDbContext<ApiDbContext>(dbContextopption => dbContextopption.UseSqlServer(builder.Configuration["ConnectionStrings:ApiDbConnectionString"]));
 
+            //Injeckting
             builder.Services.AddScoped<IMoveReposetori, MovieReposetori>();
+
+            //Aouto mapping and cheking for profile folder i the MovieApp assembli
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

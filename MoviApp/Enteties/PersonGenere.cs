@@ -10,9 +10,16 @@ namespace MoviApp.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int personGenereId { get; set; }
 
-        [ForeignKey("PersonId")]
-        public Person? FK_persond { get; set; } 
-        [ForeignKey("GenerId")]
-        public Genre? FK_GenerId { get; set; } 
+        [ForeignKey("personGenereId")]
+        public Person?FK_person { get; set; }
+        public int FK_personId { get; set; }
+        [ForeignKey("personGenereId")]
+        public Genre? FK_Gener { get; set; }
+        public int FK_GenreId { get; set; }
+
+
+
+
+
     }
 }

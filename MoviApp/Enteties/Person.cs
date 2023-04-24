@@ -16,6 +16,10 @@ namespace MoviApp.Models
         [Required]
         [MaxLength(100)]
         [Column(TypeName = "varchar(100)")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
+
+        public ICollection<PersonGenere>? Genres { get; set; } 
+
+
     }
 }

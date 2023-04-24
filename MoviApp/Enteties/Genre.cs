@@ -18,6 +18,10 @@ namespace MoviApp.Models
         [MaxLength(400)]
         [Column(TypeName = "varchar(400)")]
         public string? Description { get; set; } = null;
-        
+
+        public ICollection<PersonGenere>? persons { get; set; }
+
+        //[ForeignKey("personGenereId")]
+        //public PersonGenere personGenre { get; set; }
     }
 }

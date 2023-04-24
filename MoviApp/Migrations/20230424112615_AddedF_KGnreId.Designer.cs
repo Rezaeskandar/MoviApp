@@ -12,8 +12,8 @@ using MoviApp.Data;
 namespace MoviApp.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20230418085438_ApiDbMirgration")]
-    partial class ApiDbMirgration
+    [Migration("20230424112615_AddedF_KGnreId")]
+    partial class AddedF_KGnreId
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,20 +45,6 @@ namespace MoviApp.Migrations
                     b.HasKey("GenerId");
 
                     b.ToTable("Genres");
-
-                    b.HasData(
-                        new
-                        {
-                            GenerId = 1,
-                            Description = "The most sold film and emotianl int not recomends for pepole under 14.",
-                            Title = "Legal drama"
-                        },
-                        new
-                        {
-                            GenerId = 2,
-                            Description = "The most sold film and emotianl int not recomends for pepole under 20.",
-                            Title = "drama"
-                        });
                 });
 
             modelBuilder.Entity("MoviApp.Models.Movie", b =>
@@ -69,6 +55,9 @@ namespace MoviApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MovieId"));
 
+                    b.Property<int?>("GenersGenerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Movelink")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
@@ -76,28 +65,16 @@ namespace MoviApp.Migrations
                     b.Property<int?>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<int?>("personGenereId")
+                    b.Property<int?>("personsPersonId")
                         .HasColumnType("int");
 
                     b.HasKey("MovieId");
 
-                    b.HasIndex("personGenereId");
+                    b.HasIndex("GenersGenerId");
+
+                    b.HasIndex("personsPersonId");
 
                     b.ToTable("Movies");
-
-                    b.HasData(
-                        new
-                        {
-                            MovieId = 1,
-                            Movelink = "https://www.themoviedb.org/movie/19973-comedian",
-                            Rating = 5
-                        },
-                        new
-                        {
-                            MovieId = 2,
-                            Movelink = "https://www.themoviedb.org/movie/79168-drama",
-                            Rating = 3
-                        });
                 });
 
             modelBuilder.Entity("MoviApp.Models.Person", b =>
@@ -121,20 +98,6 @@ namespace MoviApp.Migrations
                     b.HasKey("PersonId");
 
                     b.ToTable("Person");
-
-                    b.HasData(
-                        new
-                        {
-                            PersonId = 1,
-                            Email = "Rezaeskand@gmail.com",
-                            Name = "reza"
-                        },
-                        new
-                        {
-                            PersonId = 2,
-                            Email = "Rasouleskand@gmail.com",
-                            Name = "Rasoul"
-                        });
                 });
 
             modelBuilder.Entity("MoviApp.Models.PersonGenere", b =>
@@ -143,55 +106,59 @@ namespace MoviApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("personGenereId"));
-
-                    b.Property<int?>("GenerId")
+                    b.Property<int>("FK_GenreId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PersonId")
+                    b.Property<int>("FK_personId")
                         .HasColumnType("int");
 
                     b.HasKey("personGenereId");
 
-                    b.HasIndex("GenerId");
-
-                    b.HasIndex("PersonId");
-
                     b.ToTable("PersonGenere");
-
-                    b.HasData(
-                        new
-                        {
-                            personGenereId = 1
-                        },
-                        new
-                        {
-                            personGenereId = 2
-                        });
                 });
 
             modelBuilder.Entity("MoviApp.Models.Movie", b =>
                 {
-                    b.HasOne("MoviApp.Models.PersonGenere", "person_GenereId")
+                    b.HasOne("MoviApp.Models.Genre", "Geners")
                         .WithMany()
-                        .HasForeignKey("personGenereId");
+                        .HasForeignKey("GenersGenerId");
 
-                    b.Navigation("person_GenereId");
+                    b.HasOne("MoviApp.Models.Person", "persons")
+                        .WithMany()
+                        .HasForeignKey("personsPersonId");
+
+                    b.Navigation("Geners");
+
+                    b.Navigation("persons");
                 });
 
             modelBuilder.Entity("MoviApp.Models.PersonGenere", b =>
                 {
-                    b.HasOne("MoviApp.Models.Genre", "FK_GenerId")
-                        .WithMany()
-                        .HasForeignKey("GenerId");
+                    b.HasOne("MoviApp.Models.Genre", "FK_Gener")
+                        .WithMany("persons")
+                        .HasForeignKey("personGenereId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("MoviApp.Models.Person", "FK_persond")
-                        .WithMany()
-                        .HasForeignKey("PersonId");
+                    b.HasOne("MoviApp.Models.Person", "FK_person")
+                        .WithMany("Genres")
+                        .HasForeignKey("personGenereId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("FK_GenerId");
+                    b.Navigation("FK_Gener");
 
-                    b.Navigation("FK_persond");
+                    b.Navigation("FK_person");
+                });
+
+            modelBuilder.Entity("MoviApp.Models.Genre", b =>
+                {
+                    b.Navigation("persons");
+                });
+
+            modelBuilder.Entity("MoviApp.Models.Person", b =>
+                {
+                    b.Navigation("Genres");
                 });
 #pragma warning restore 612, 618
         }
