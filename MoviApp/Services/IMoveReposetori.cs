@@ -6,9 +6,9 @@ namespace MoviApp.Services
     {
 
        Task< IEnumerable<Person>> GetPersonsAsync();
-       Task<IEnumerable<Person?>> GetPersonAsyncById(int PersonId, bool includGenre);
+       Task<IEnumerable<Person?>> GetPersonAsyncById(int PersonId);
         Task<IEnumerable<Person?>> GetPersonAsyncByName(string Name);
-        Task<Genre?> GetAllGenreIncludPersonsAsync(int PersonId, bool includeGnre);
+        Task<Genre?> GetAllGenreIncludPersonsAsync(int PersonId);
         Task<IEnumerable<Genre>> GetGenresAsync();
         Task<IEnumerable<Genre?>> GetGenreAsyncById(int GenreId);
         Task<Genre?> GetGenreAsyncById(int GenreId, bool includPerson);
@@ -20,7 +20,7 @@ namespace MoviApp.Services
         //Task<IEnumerable<Movie>> GetMovieAsync();
         //Task<IEnumerable<Movie?>> GetMovieAsync(int PersonId);
 
-        Task<Person?> GetMovieAsyncByPerson(int personid);
+        Task<Person?> GetMovieAsyncByPerson(string PersonName);
     }
 }
  

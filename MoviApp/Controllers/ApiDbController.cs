@@ -96,10 +96,10 @@ namespace MoviApp.Controllers
         //    return Ok(resoult);
         //}
         [HttpGet("Genre/{id}")]
-        public async Task<ActionResult<Genre>> GetGnresById(int id, bool includPerson = false)
+        public async Task<ActionResult<Genre>> GetGnresById(int id)
         {
             //get genere genom reposetories
-            var genreEntity = await _moveReposetori.GetGenreAsyncById(id, includPerson);
+            var genreEntity = await _moveReposetori.GetGenreAsyncById(id);
 
             if (genreEntity == null)
             {
@@ -137,21 +137,20 @@ namespace MoviApp.Controllers
         //get person By Id
 
         [HttpGet("person{id}")]
-        public async Task<ActionResult<IEnumerable<Person>>> GetUniqPerson(int id, bool includGenre = false)
+        public async Task<ActionResult<IEnumerable<Person>>> GetUniqPerson(int id)
         {
             //get genere genom reposetories
-            var personEntity = await _moveReposetori.GetPersonAsyncById(id, includGenre);
+            var personEntity = await _moveReposetori.GetPersonAsyncById(id);
             //var persEntity = await _moveReposetori.GetPersonAsyncById(id, includPerson);
             if (personEntity == null)
             {
                 return NotFound();
             }
 
-            if (includGenre)
-            {
+            
                 return Ok(_mapper.Map<List<Person>>(personEntity));
 
-            }
+            
             //mapping from genreEntity to Genre
             //var resoult = new List<Person>();
             //foreach (var peron in personEntity)
@@ -236,10 +235,10 @@ namespace MoviApp.Controllers
         //    //return Ok(genres);
         //}  
 
-        [HttpGet("GetMovieByPerson/{personid}")]
-        public async Task<ActionResult<Person>> GetMovieAsync(int personid)
+        [HttpGet("GetMovieByPerson")]
+        public async Task<ActionResult<Person>> GetMovieAsync(string PersonName)
         {
-            var personEntity = await _moveReposetori.GetMovieAsyncByPerson(personid);
+            var personEntity = await _moveReposetori.GetMovieAsyncByPerson(PersonName);
             if (personEntity == null)
             {
                 return NotFound();

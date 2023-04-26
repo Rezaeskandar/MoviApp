@@ -21,7 +21,7 @@ namespace MoviApp.Services
             return await _context.Person.OrderBy(G => G.PersonId).ToListAsync();
         }
 
-        public async Task<IEnumerable<Person?>> GetPersonAsyncById(int PersonId, bool includPerson)
+        public async Task<IEnumerable<Person?>> GetPersonAsyncById(int PersonId)
         {
             return await _context.Person.Where(p => p.PersonId == PersonId).ToListAsync();
         }
@@ -30,7 +30,7 @@ namespace MoviApp.Services
         {
             return await _context.Person.Where(p => p.Name == Name).ToListAsync();
         }
-        public async Task<Genre?> GetAllGenreIncludPersonsAsync(int PersonId, bool includeGnre=false)
+        public async Task<Genre?> GetAllGenreIncludPersonsAsync(int PersonId)
         {
            
                 return await _context.Genres.Include(G => G.PersonGenere).Where(p => p.GenerId == PersonId).FirstOrDefaultAsync();
@@ -56,10 +56,7 @@ namespace MoviApp.Services
 
         public async Task<Genre?> GetGenreAsyncById(int genreId, bool includeGenre)
         {
-            if (includeGenre)
-            {
-                //return await _context.Genres.Include(g => g.personId).FirstOrDefaultAsync(g => g.GenerId == genreId);
-            }
+           
             return await _context.Genres.FindAsync(genreId);
         }
         public async Task<IEnumerable<PersonGenere>> GetPersonsGenreAsync()
@@ -68,7 +65,7 @@ namespace MoviApp.Services
             return await _context.PersonGenere.OrderBy(G => G.personGenereId).ToListAsync();
         }
 
-        public async Task<Person> GetMovieAsyncByPerson(int personid)
+        public async Task<Person> GetMovieAsyncByPerson(string PersonName)
         {
 
             //var person = await _context.Person
@@ -87,7 +84,7 @@ namespace MoviApp.Services
                 p => p.PersonId,
                 m => m.FkPersonId,
                 (p, m) => new { Person = p, Movie = m })
-            .Where(x => x.Person.PersonId == personid)
+            .Where(x => x.Person.Name == PersonName)
             .Select(x => new Person
             {
                 PersonId = x.Person.PersonId,
