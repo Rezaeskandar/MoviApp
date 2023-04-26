@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MoviApp.AoutoMaping;
 using MoviApp.Data;
 using MoviApp.Services;
 
@@ -23,8 +24,8 @@ namespace MoviApp
             //Injeckting
             builder.Services.AddScoped<IMoveReposetori, MovieReposetori>();
 
-            //Aouto mapping and cheking for profile folder i the MovieApp assembli
-            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            //Aouto mapping 
+            builder.Services.AddAutoMapper(typeof(MapingConfig));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

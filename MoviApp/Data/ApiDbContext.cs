@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MoviApp.Enteties;
 using MoviApp.Models;
 
 namespace MoviApp.Data
@@ -8,7 +9,11 @@ namespace MoviApp.Data
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Movie> Movies { get;set; }
         public DbSet<Person> Person { get; set; }
+        public DbSet<MovieGenre> MovieGenres { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
         public DbSet<PersonGenere> PersonGenere { get; set; }
+        //public DbSet<Rating> Ratings { get; set; }
+        //public DbSet<MovieGenre> MovieGenres { get; set; }
         //connection
         public ApiDbContext(DbContextOptions<ApiDbContext> options)
             : base(options)
@@ -53,7 +58,7 @@ namespace MoviApp.Data
         //            PersonId = 2,
         //            Name = "Rasoul",
         //            Email = "Rasouleskand@gmail.com"
-                
+
         //        });
 
 
@@ -61,7 +66,7 @@ namespace MoviApp.Data
         //        new PersonGenere()
         //        {
         //            personGenereId=1,
-                 
+
         //        },
         //        new PersonGenere()
         //        {
@@ -74,9 +79,9 @@ namespace MoviApp.Data
         //       {
         //           MovieId = 1,
         //           Movelink = "https://www.themoviedb.org/movie/19973-comedian",
-                 
+
         //           Rating= 5
-                   
+
         //       },
         //       new Movie()
         //       {
@@ -88,5 +93,7 @@ namespace MoviApp.Data
         //    base.OnModelCreating(modelBuilder);
 
         //}
+
+
     }
 }

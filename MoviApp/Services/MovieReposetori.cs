@@ -26,23 +26,80 @@ namespace MoviApp.Services
             return await _context.Person.Where(p => p.PersonId == PersonId).ToListAsync();
         }
 
+        public async Task<IEnumerable<Person?>> GetPersonAsyncByName(string Name)
+        {
+            return await _context.Person.Where(p => p.Name == Name).ToListAsync();
+        }
+        public async Task<Genre?> GetAllGenreIncludPersonsAsync(int PersonId, bool includeGnre=false)
+        {
+           
+                return await _context.Genres.Include(G => G.PersonGenere).Where(p => p.GenerId == PersonId).FirstOrDefaultAsync();
+            
+        }
         public async Task<IEnumerable<Genre>> GetGenresAsync()
         {
             //return all Genres Asynctonic
-            return await _context.Genres.OrderBy(G => G.GenerId).ToListAsync();
+           
+                 return await _context.Genres.OrderBy(G => G.GenerId).ToListAsync();
         }
 
-        public async Task<IEnumerable<Genre?>> GetGenreAsyncById(int genreId, bool includGenre)
+        public async Task<IEnumerable<Genre?>> GetGenreAsyncById(int genreId)
         {
             //return one by id Genres Asynchronous
+          
+                //Person getPers =new Person();
+                //return (IEnumerable<Genre?>)await _context.Genres.Include(p => p.persons).Where(p => p.GenerId == getPers.PersonId).FirstOrDefaultAsync();
+                //return await _context.Person.Where(p => p.PersonId == PersonId).ToListAsync();
+            
             return await _context.Genres.Where(g => g.GenerId == genreId).ToListAsync();
         }
 
-        public async Task<IEnumerable<PersonGenere>> GetPersonsGenreAsync(int PersonGenreId, bool includPerson )
+        public async Task<Genre?> GetGenreAsyncById(int genreId, bool includeGenre)
+        {
+            if (includeGenre)
+            {
+                //return await _context.Genres.Include(g => g.personId).FirstOrDefaultAsync(g => g.GenerId == genreId);
+            }
+            return await _context.Genres.FindAsync(genreId);
+        }
+        public async Task<IEnumerable<PersonGenere>> GetPersonsGenreAsync()
         {
             //return all Genres Asynctonic
             return await _context.PersonGenere.OrderBy(G => G.personGenereId).ToListAsync();
         }
+
+        public async Task<Person> GetMovieAsyncByPerson(int personid)
+        {
+
+            //var person = await _context.Person
+            //.Include(p => p.Movies)
+            //.FirstOrDefaultAsync(p => p.PersonId == personid);
+
+            //if (person == null)
+            //{
+            //    return null;
+            //}
+
+            //return  person;
+
+                var person = await _context.Person
+            .Join(_context.Movies,
+                p => p.PersonId,
+                m => m.FkPersonId,
+                (p, m) => new { Person = p, Movie = m })
+            .Where(x => x.Person.PersonId == personid)
+            .Select(x => new Person
+            {
+                PersonId = x.Person.PersonId,
+                Name = x.Person.Name,
+                Movies = new List<Movie> { x.Movie }
+            })
+            .FirstOrDefaultAsync();
+
+            return person;
+        }
+
+    
 
         //public async Task<IEnumerable<Genre?>> GetGenreAsync(int genreId, bool includGenre)
         //{

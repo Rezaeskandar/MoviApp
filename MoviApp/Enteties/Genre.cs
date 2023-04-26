@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MoviApp.Enteties;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MoviApp.Models
@@ -7,7 +8,7 @@ namespace MoviApp.Models
     {
         [Key]
         //qouto intecriment of id 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int GenerId { get; set; }
 
         [Required]
@@ -19,7 +20,8 @@ namespace MoviApp.Models
         [Column(TypeName = "varchar(400)")]
         public string? Description { get; set; } = null;
 
-        public ICollection<PersonGenere>? persons { get; set; }
+        public ICollection<PersonGenere>? PersonGenere { get; set; } 
+        public ICollection<MovieGenre>? MovieGenres { get; set; }
 
         //[ForeignKey("personGenereId")]
         //public PersonGenere personGenre { get; set; }
