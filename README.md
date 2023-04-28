@@ -49,4 +49,5 @@ The following endpoints are available for interacting with the API:
 - POST /add-person-to-genre - Add a specified user with a new genre
 - POST /Add-NewLink/{personId}/genre/{genreId}/link - Adds a new link for the specified user and genre
 
+___
 If you would like to contribute to this project, please fork the repository and submit a pull request. All contributions are welcome!
