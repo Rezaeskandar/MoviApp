@@ -39,7 +39,7 @@ ___
 ##Usage
 The following endpoints are available for interacting with the API:
 
-> - GET /Genre - Returns a list of all Genres 
+- GET /Genre - Returns a list of all Genres 
 - GET /Genre/{id} - Returns a list of all genres with the specified user
 - GET /Person - Returns a list of all Persons 
 - GET /Person/{id} - Returns a list of all Person with the specified user
