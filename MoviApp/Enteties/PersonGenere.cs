@@ -15,9 +15,9 @@ namespace MoviApp.Models
 
         public int FK_GenreId { get; set; }
         public virtual Genre? Genres { get; set; }
-      
 
-
+        public string? NewLinks { get; set; }
+    
 
 
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoviApp.Data;
 
@@ -11,9 +12,11 @@ using MoviApp.Data;
 namespace MoviApp.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    partial class ApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230427115524_updatedmig")]
+    partial class updatedmig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,9 +44,6 @@ namespace MoviApp.Migrations
 
                     b.Property<int?>("MoviesMovieId")
                         .HasColumnType("int");
-
-                    b.Property<string>("NewLink")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -175,9 +175,6 @@ namespace MoviApp.Migrations
 
                     b.Property<int?>("GenresGenerId")
                         .HasColumnType("int");
-
-                    b.Property<string>("NewLinks")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PersonsPersonId")
                         .HasColumnType("int");

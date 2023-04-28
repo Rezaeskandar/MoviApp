@@ -20,7 +20,7 @@ namespace MoviApp.Models
         [Column (TypeName = "varchar(255)")]
         public string? Movelink { get; set; }
 
-        public List<Rating>? Rating { get; set; } = null;
+        public List<Rating>? Rating { get; set; } 
        
         //public int Genered { get; set; }
         //public  Genre? Geners { get; set; }
@@ -28,5 +28,6 @@ namespace MoviApp.Models
         public int FkPersonId { get; set; }
         public virtual Person? persons { get; set; }
         public List<MovieGenre>? MovieGenre { get; set; }
+       
     }
 }

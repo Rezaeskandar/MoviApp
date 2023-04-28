@@ -8,7 +8,7 @@ namespace MoviApp.Data
     {
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Movie> Movies { get;set; }
-        public DbSet<Person> Person { get; set; }
+        public DbSet<Person> Persons { get; set; }
         public DbSet<MovieGenre> MovieGenres { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<PersonGenere> PersonGenere { get; set; }
@@ -20,7 +20,18 @@ namespace MoviApp.Data
         {
 
         }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Rating>()
+        //        .HasOne(r => r.Persons)
+        //        .WithMany(p => p.Ratings)
+        //        .HasForeignKey(r => r.Fk_PersonId);
 
+        //    modelBuilder.Entity<Rating>()
+        //        .HasOne(r => r.Movies)
+        //        .WithMany(m => m.Rating)
+        //        .HasForeignKey(r => r.FkMovieId);
+        //}
         //one opption for connetion
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

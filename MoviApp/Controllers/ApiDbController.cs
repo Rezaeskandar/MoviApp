@@ -49,50 +49,16 @@ namespace MoviApp.Controllers
            return Ok(_mapper.Map<List<Genre>>(genreEntity));
         }
 
-        //[HttpGet("Genre{id}")]
-        //public async Task<ActionResult<Genre>> GetGnresById(int id, bool includPerson = false)
+        //[HttpPost("Genre")]
+        //public async Task<ActionResult<IEnumerable<Genre>>> GetGnres()
         //{
         //    //get genere genom reposetories
-        //    var genreEntity = await _moveReposetori.GetGenreAsyncById(id, includPerson);
-        //    //var persEntity = await _moveReposetori.GetPersonAsyncById(id, includPerson);
-        //    if (genreEntity == null)
-        //    {
-        //        return NotFound();
-        //    }
+        //    var genreEntity = await _moveReposetori.GetGenresAsync();
 
-        //    if (includPerson)
-        //    {
-        //        var resoult1 = new Genre();
-        //        //foreach (var Genre in genreEntity)
-        //        //{
-        //       new Genre
-        //        {
-        //            GenerId = genreEntity.GenerId,
-        //            Title = genreEntity.Title,
-        //            Description = genreEntity.Description,
-        //            //persons = Genre.persons
-        //        };
-        //            //var rePers = new List<Person>();
-        //            //foreach (var Person in persEntity)
-        //            //{
-        //            //    rePers.Add(new Person { PersonId = Person.PersonId, Name = Person.Name, Email = Person.Email });
-        //            //}
-        //            //return Ok(rePers);
-        //        //}
 
-        //        return Ok(resoult1);
-        //    }
-        //    //mapping from genreEntity to Genre
-        //    var resoult = new Genre();
-        //    //foreach (var Genre in resoult)
-        //    //{
-        //        new Genre
-        //        {
-        //            GenerId = genreEntity.GenerId,
-        //            Title = genreEntity.Title,
-        //            Description = genreEntity.Description
-        //        };
-        //    //}
+            
+        //    return Ok(_mapper.Map<List<Genre>>(genreEntity));
+        //}
         //    return Ok(resoult);
         //}
         [HttpGet("Genre/{id}")]
@@ -163,7 +129,7 @@ namespace MoviApp.Controllers
             //    });
             //}
             //return Ok(resoult);
-            return Ok(_mapper.Map<List<Person>>(personEntity));
+           
         }
 
         //get person by name
@@ -191,49 +157,7 @@ namespace MoviApp.Controllers
             //return Ok(_mapper.Map<List<Person>>(personEntity));
         }
 
-        //Get person genre
-        //[HttpGet("PersonGenre")]
-        //public async Task<ActionResult<IEnumerable<PersonGenere>>> GetPersonGnres()
-        //{
-        //    //get genere genom reposetories
-        //    var personGenreEntity = await _moveReposetori.GetPersonsGenreAsync();
-
-        //    //mapping from genreEntity to Genre
-        //    var resoult = new List<PersonGenere>();
-        //    foreach (var personGenre in personGenreEntity)
-        //    {
-        //        resoult.Add(new PersonGenere
-        //        {
-        //           personGenereId = personGenre.personGenereId,
-        //           FK_GenreId = personGenre.FK_GenreId,
-        //           FK_personId= personGenre.FK_personId
-
-        //        });
-        //    }
-        //    return Ok(resoult);
-        //}
-
-        //[HttpGet("GEtgenres/{personId}")]
-        //public async Task<ActionResult<GnreIncludPerson>> GetGenresForPerson(int personId , bool includeGnre)
-        //{
-        //    var personGEntity = await _moveReposetori.GetAllGenreIncludPersonsAsync(personId, includeGnre);
-
-        //    var resoult3 = new List<GnreIncludPerson>();
-        //    foreach (var personGenre in personGEntity)
-        //    {
-        //        resoult3.Add(new GnreIncludPerson
-        //        {
-        //            Id = personGenre.Id,
-        //            Name = personGenre.Name,
-        //            Description = personGenre.Description
-
-        //        });
-        //    }
-
-        //    //var genres = Person.PersonGenres.Select(pg => pg.Genre).ToList();
-
-        //    //return Ok(genres);
-        //}  
+       
 
         [HttpGet("GetMovieByPerson")]
         public async Task<ActionResult<Person>> GetMovieAsync(string PersonName)
@@ -245,6 +169,36 @@ namespace MoviApp.Controllers
             }
 
             return Ok(_mapper.Map<Person>(personEntity));
+        }
+
+
+        [HttpGet("GetRatingByPersonName")]
+        public async Task<ActionResult<Person>> GetRatingByMovieID(string personName)
+        {
+            var movieEntity = await _moveReposetori.GetRatingAsyncByPerson(personName);
+            if (movieEntity == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_mapper.Map<Person>(movieEntity));
+
+        }
+
+        [HttpPost("add-person-to-genre")]
+        public async Task<ActionResult<PersonGenere>> AddPersonToGenre(int personId, int genreId)
+        {
+            await _moveReposetori.AddPersonToGenreAsync(personId, genreId);
+
+            return Ok();
+        }
+
+
+        [HttpPost("Add-NewLink/{personId}/genre/{genreId}/link")]
+        public async Task<ActionResult<PersonGenere>> AddPersonGenreLink(int personId, int genreId, [FromBody] string link)
+        {
+            var newPersonGenre = await _moveReposetori.AddPersonGenreLinkAsync(personId, genreId, link);
+            return Ok(newPersonGenre);
         }
     }
 

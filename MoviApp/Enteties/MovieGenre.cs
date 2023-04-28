@@ -15,5 +15,8 @@ namespace MoviApp.Enteties
         public virtual Genre? Genres { get; set; }
         public int FkMovieId { get; set; }
         public virtual Movie? Movies { get; set; }
+        public string? NewLink { get; set; }
+     
+
     }
 }
