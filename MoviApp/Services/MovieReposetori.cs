@@ -1,8 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MoviApp.Data;
 using MoviApp.Enteties;
 using MoviApp.Models;
+using System;
 using System.Linq;
+using System.Net.Http;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace MoviApp.Services
 {
@@ -182,19 +187,127 @@ namespace MoviApp.Services
                 throw new ArgumentException("Invalid person or genre id");
             }
 
-            //var existingLink = await _context.PersonGenere
-            //    .FirstOrDefaultAsync(pgl => pgl.FK_personId == personId && pgl.FK_GenreId == genreId);
-
-            //if (existingLink != null)
-            //{
-            //    throw new InvalidOperationException("Link already exists");
-            //}
-
             var newLink = new PersonGenere {FK_personId = personId, FK_GenreId = genreId, NewLinks = link };
             _context.PersonGenere.Add(newLink);
             await _context.SaveChangesAsync();
 
             return newLink;
         }
-    }   
+
+        //TMDB
+        //private readonly HttpClient _httpClient;
+
+        //public MovieReposetori(HttpClient httpClient)
+        //{
+        //    _httpClient = httpClient;
+        //}
+
+        //public Task<List<Movie>> GetRecommendedMoviesByGenre(string genre)
+        //{
+        //    return GetRecommendedMoviesByGenre(genre, _httpClient);
+        //}
+
+        //public async Task<List<Movie>> GetRecommendedMoviesByGenre(string genre)
+        //{
+        //    var url = $"https://api.themoviedb.org/3/discover/movie?api_key=<4830bcf38fe0badbc31f150d78c89f7f>&with_genres={genre}";
+        //    var response = await _httpClient.GetAsync(url);
+
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        var result = await response.Content.ReadAsStringAsync();
+        //        var data = JsonSerializer.Deserialize<TMDBMoviesResponse>(result);
+
+        //        return data.Results.Select(x => new Movie
+        //        {
+        //            Name = x.Name,
+        //            Movelink = "", // or set to null or some default value if needed
+        //            Rating = null, // or set to an empty list or some default value if needed
+        //            //ReleaseDate = x.ReleaseDate
+        //        }).ToList();
+        //    }
+
+        //    return null;
+        //}
+        //private readonly ApiDbContext _context;
+        private readonly HttpClient _httpClient;
+
+        public MovieReposetori(ApiDbContext context, [FromServices] HttpClient httpClient)
+        {
+            _context = context;
+            _httpClient = httpClient;
+        }
+
+        //public async Task<List<Genre>> GetRecommendedMoviesByGenre(string genre)
+        //{
+        //    var apiKey = "4830bcf38fe0badbc31f150d78c89f7f";
+        //    var url = $"https://api.themoviedb.org/3/discover/movie?api_key={apiKey}&with_genres={genre}";
+
+        //    var response = await _httpClient.GetAsync(url);
+
+        //    //if (response.IsSuccessStatusCode)
+        //    //{
+        //    //    var result = await response.Content.ReadAsStringAsync();
+        //    //    var data = JsonSerializer.Deserialize<TMDBMoviesResponse>(result);
+
+        //    //    if (data != null)
+        //    //    {
+        //    //        return data.Results.Select(x => new Movie
+        //    //        {
+        //    //            Name = x.Name,
+        //    //            Movelink = "www.Action.com", // or set to null or some default value if needed
+        //    //            //Rating = null, // or set to an empty list or some default value if needed
+        //    //            //ReleaseDate = x.ReleaseDate
+        //    //        }).ToList();
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        return new List<Movie>();
+        //    //    }
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        var result = await response.Content.ReadAsStringAsync();
+        //        var jsonObject = JsonObject.Parse(result);
+
+        //        //var results = jsonObject.SelectToken("results");
+        //        if (result != null)
+        //        {
+        //            return result.Select(x => new Genre
+        //            {
+        //                Title = "",
+        //                Description = "",
+        //                //Rating = null,
+        //                //ReleaseDate = x.SelectToken("releaseDate")?.ToString()
+        //            }).ToList();
+        //        }
+        //        else
+        //        {
+        //            return new List<Genre>();
+        //        }
+        //    }
+
+        //    return null;
+        public async Task<List<Movie>> GetRecommendedMoviesByGenre(string genre)
+        {
+            try
+            {
+                var apiKey = "4830bcf38fe0badbc31f150d78c89f7f";
+                var url = $"https://api.themoviedb.org/3/discover/movie?api_key={apiKey}&with_genres={genre}";
+                var response = await _httpClient.GetAsync(url);
+                var content = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var result = JsonSerializer.Deserialize<TMDBMoviesResponse>(content, options);
+                return result?.Results ?? new List<Movie>();
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception here, for example log it
+                Console.WriteLine($"An error occurred while retrieving recommended movies: {ex.Message}");
+                return null; // or an empty list
+            }
+        }
+    }
+
+       
+    
+     
 }

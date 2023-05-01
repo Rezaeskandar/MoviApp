@@ -23,7 +23,7 @@ namespace MoviApp
 
             //Injeckting
             builder.Services.AddScoped<IMoveReposetori, MovieReposetori>();
-
+            builder.Services.AddSingleton<HttpClient>();
             //Aouto mapping 
             builder.Services.AddAutoMapper(typeof(MapingConfig));
             var app = builder.Build();

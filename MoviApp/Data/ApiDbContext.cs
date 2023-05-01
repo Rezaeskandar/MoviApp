@@ -84,7 +84,7 @@ namespace MoviApp.Data
         //          personGenereId=2
 
         //        });
-
+            
         //    modelBuilder.Entity<Movie>().HasData(
         //       new Movie()
         //       {

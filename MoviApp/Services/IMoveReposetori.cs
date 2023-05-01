@@ -23,7 +23,8 @@ namespace MoviApp.Services
         Task<PersonGenere?> AddPersonToGenreAsync(int personId, int genreId);
 
         Task<PersonGenere?> AddPersonGenreLinkAsync(int personId, int genreId, string NewLink);
-        
+
+        Task<List<Movie>> GetRecommendedMoviesByGenre(string genre);
     }
 }
  

@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using MoviApp.Enteties;
 using MoviApp.Models;
 using MoviApp.Services;
+using System.Net.Http;
+using System.Text.Json;
 
 namespace MoviApp.Controllers
 {
@@ -16,10 +18,12 @@ namespace MoviApp.Controllers
         private readonly IMoveReposetori _moveReposetori;
 
         private readonly IMapper _mapper;
+        private object _movieRepository;
+
         // GET: ApiDbController
         // Injection
 
-        public ApiDbController(IMoveReposetori moveReposetori,IMapper mapper)
+        public ApiDbController(IMoveReposetori moveReposetori, IMapper mapper)
         {
             _moveReposetori = moveReposetori
                 ?? throw new ArgumentNullException(nameof(moveReposetori));
@@ -46,7 +50,7 @@ namespace MoviApp.Controllers
             //    });
             //}
             //return Ok(resoult);
-           return Ok(_mapper.Map<List<Genre>>(genreEntity));
+            return Ok(_mapper.Map<List<Genre>>(genreEntity));
         }
 
         //[HttpPost("Genre")]
@@ -56,7 +60,7 @@ namespace MoviApp.Controllers
         //    var genreEntity = await _moveReposetori.GetGenresAsync();
 
 
-            
+
         //    return Ok(_mapper.Map<List<Genre>>(genreEntity));
         //}
         //    return Ok(resoult);
@@ -113,10 +117,10 @@ namespace MoviApp.Controllers
                 return NotFound();
             }
 
-            
-                return Ok(_mapper.Map<List<Person>>(personEntity));
 
-            
+            return Ok(_mapper.Map<List<Person>>(personEntity));
+
+
             //mapping from genreEntity to Genre
             //var resoult = new List<Person>();
             //foreach (var peron in personEntity)
@@ -129,7 +133,7 @@ namespace MoviApp.Controllers
             //    });
             //}
             //return Ok(resoult);
-           
+
         }
 
         //get person by name
@@ -150,14 +154,14 @@ namespace MoviApp.Controllers
                 return Ok(_mapper.Map<List<Person>>(personEntity));
 
             }
-           
-                return NotFound("Name You searching not exist!");
 
-            
+            return NotFound("Name You searching not exist!");
+
+
             //return Ok(_mapper.Map<List<Person>>(personEntity));
         }
 
-       
+
 
         [HttpGet("GetMovieByPerson")]
         public async Task<ActionResult<Person>> GetMovieAsync(string PersonName)
@@ -200,8 +204,62 @@ namespace MoviApp.Controllers
             var newPersonGenre = await _moveReposetori.AddPersonGenreLinkAsync(personId, genreId, link);
             return Ok(newPersonGenre);
         }
+
+        [HttpGet("recommended-movies/{genre}")]
+        public async Task<ActionResult<List<Movie>>> GetRecommendedMoviesTMDB(string genre)
+        {
+            var movies = await _moveReposetori.GetRecommendedMoviesByGenre(genre);
+
+            if (movies == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(movies);
+        }
+
+        //[HttpGet("recommended-movies/{genre}")]
+        //public async Task<ActionResult<List<Movie>>> GetRecommendedMoviesTMDB(string genre)
+        //{
+        //    var movies = await _moveReposetori.GetRecommendedMoviesByGenre(genre);
+
+        //    if (movies == null)
+        //    {
+        //        var apiKey = "4830bcf38fe0badbc31f150d78c89f7f";
+        //        var url = $"https://api.themoviedb.org/3/discover/movie?api_key={apiKey}&with_genres={genre}";
+
+        //        using var httpClient = new HttpClient();
+        //        var response = await httpClient.GetAsync(url);
+
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            var result = await response.Content.ReadAsStringAsync();
+        //            var data = JsonSerializer.Deserialize<TMDBMoviesResponse>(result);
+
+        //            if (data.Results != null)
+        //            {
+        //                movies = data.Results.Select(x => new Movie
+        //                {
+        //                    Name = x.Name,
+        //                    Movelink = "Action", // or set to null or some default value if needed
+        //                    Rating = null, // or set to an empty list or some default value if needed
+        //                                   //ReleaseDate = x.ReleaseDate
+        //                }).ToList();
+        //            }
+        //            else
+        //            {
+        //                movies = new List<Movie>();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            return NotFound();
+        //        }
+        //    }
+
+        //    return Ok(movies);
+        //}
+
     }
-
-
 
 }

@@ -12,6 +12,7 @@ namespace MoviApp.AoutoMaping
             CreateMap<Movie, Movie>().ReverseMap();
             CreateMap<Person, Genre>().ReverseMap();
             CreateMap<List<Person>, Movie>().ReverseMap();
+            CreateMap<List<Genre>, HttpClient>().ReverseMap();
             //CreateMap<List<Person>, Rating>().ReverseMap();
             //CreateMap<List<Rating>, Rating>().ReverseMap();
 
